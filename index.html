@@ -152,6 +152,27 @@
           }, 0); 
         }
       }
+      
+      function get_default_dictionary_and_callback(cb)
+      {
+        var xhr = new XMLHttpRequest();
+        xhr.addEventListener('load', function(r){
+          cb(r.currentTarget.responseText);
+        });
+        xhr.open("GET", "dict.dat");
+        xhr.send();
+      }
+      
+      function dowload_default_dictionary()
+      {
+        get_default_dictionary_and_callback(function(r){
+          download(r, 'dict.txt', 'text/plain');
+        });
+      }
+      
+      window.onload = function(){
+        get_default_dictionary_and_callback(load_dictionary_from_string);
+      }
     </script>
     <style>
       textarea
@@ -175,7 +196,7 @@
       <li>Ensure "Allow HTML in fields" is checked.</li>
       <li>Leave all other settings unchanged and click Import.</li>
     </ol>
-    The formatting of your text doesn't matter; the app will ignore non-Japanese characters. Cards are sorted based on the frequency at which words appear in your text with frequently occurring words appearing first and infrequently occurring words appearing last. The "Ignore Katakana" option can be used if your text contains a lot of non-Japanese words written in Katakana. Additionally, a custom dictionary can be loaded with the "Load Dictionary" button. The default dictionary can be used as a template / starting point. Download it by clicking <a href='#'>here</a> and edit it using any text editor.<br><br>
+    The formatting of your text doesn't matter; the app will ignore non-Japanese characters. Cards are sorted based on the frequency at which words appear in your text with frequently occurring words appearing first and infrequently occurring words appearing last. The "Ignore Katakana" option can be used if your text contains a lot of non-Japanese words written in Katakana. Additionally, a custom dictionary can be loaded with the "Load Dictionary" button. The default dictionary can be used as a template / starting point. Download it by clicking <a href='#' onclick='dowload_default_dictionary()'>here</a> and edit it using any text editor.<br><br>
     Status: <span id='status_span'>Loading Dictionary...</span>
     <textarea></textarea>
     <input type='file' style='display:none' />
